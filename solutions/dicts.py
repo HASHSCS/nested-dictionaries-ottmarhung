@@ -19,9 +19,14 @@ def get_information(data, outer_key, inner_key):
     - Value associated with the inner key or None if the keys are not found.
     """
     # Your code here
-    pass
 
-
+    if outer_key in data:
+        if inner_key in data[outer_key]:
+            return data[outer_key][inner_key]
+        else:
+            return None
+    else:
+        return None
 # 2. Add Information:
 # Add or modify information in the nested dictionary using the given outer and inner keys.
 def add_information(data, outer_key, inner_key, value):
@@ -36,9 +41,11 @@ def add_information(data, outer_key, inner_key, value):
     - Modified data with the new value
     """
     # Your code here
-    pass
+    if outer_key not in data:
+        data[outer_key] = {}
+    data[outer_key][inner_key] = value
 
-
+    return data
 # 3. Remove Information:
 # Given the outer and inner keys, remove the associated key-value pair from the nested dictionary.
 def remove_information(data, outer_key, inner_key):
@@ -52,9 +59,10 @@ def remove_information(data, outer_key, inner_key):
     - Modified data with the key-value pair removed or original data if the keys are not found.
     """
     # Your code here
-    pass
-
-
+    if outer_key in data:
+        if inner_key in data[outer_key]:
+            del data[outer_key][inner_key]
+    return data
 # --- Advanced Operations ---
 
 # 4. Retrieve Nested Value:
@@ -69,9 +77,12 @@ def get_nested_value(data, key_chain):
     - Value at the end of the key chain or None if the path doesn't exist.
     """
     # Your code here
-    pass
-
-
+    for key in key_chain:
+        if isinstance(data, dict) and key in data:
+            data = data[key]
+        else:
+            return None
+    return data    
 # 5. Set Nested Value:
 # Modify the nested dictionary to set a value at a specific key chain.
 def set_nested_value(data, key_chain, value):
@@ -84,7 +95,10 @@ def set_nested_value(data, key_chain, value):
     Returns:
     - Modified data with the value set at the specified key chain.
     """
-    # Your code here
-    pass
+    current_level = data
 
-
+    for i in range(len(key_chain) - 1):
+        key = key_chain[i]
+        current_level = current_level.setdefault(key, {})
+    current_level[key_chain[-1]] = value
+    return data
