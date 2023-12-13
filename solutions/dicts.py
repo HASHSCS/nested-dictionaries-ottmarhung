@@ -95,10 +95,10 @@ def set_nested_value(data, key_chain, value):
     Returns:
     - Modified data with the value set at the specified key chain.
     """
-    # Your code here
-    for key in key_chain:
-        if key in data:
-            data[key] = value
-        else:
-            
+    current_level = data
 
+    for i in range(len(key_chain) - 1):
+        key = key_chain[i]
+        current_level = current_level.setdefault(key, {})
+    current_level[key_chain[-1]] = value
+    return data
